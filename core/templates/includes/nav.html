@@ -1,0 +1,50 @@
+<!--Admin Navbar-->
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg py-3 " role="navigation">
+    <div class="container">
+        <a href="" class="navbar-brand">
+
+            <h2 class="text-capitalize">
+                {{ request.user.first_name }} {{ request.user.last_name }} -
+                <small>
+                    {{ role }}
+                </small>
+            </h2>
+        </a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarTags">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTags">
+            <ul class="navbar-nav ml-auto">
+
+
+                <li class="nav-item dropdown p-2">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Options
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        {% if role == 'admin' %}
+
+                        <a class="dropdown-item" href="{% url 'employees'%}">Employees</a>
+
+
+                        {% endif %}
+
+                    </div>
+                </li>
+
+
+                <li class="nav-item mr-3 p-2">
+                    {% if role == 'staff' or role == 'receptionist' or role == 'admin' or role == 'manager' %}
+                    <a href="{% url 'employee-profile' user.id %}" class="nav-link">Profile</a>
+                    {% endif %}
+                </li>
+                <li class="nav-item p-2 ">
+                    <a href="{% url 'logout' %}" class="nav-link">Log Out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

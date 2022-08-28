@@ -1,0 +1,149 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+
+{% block styles %}
+<style>
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-image: url("{% static '/images/hotel.jpg' %}");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .user_card {
+        width: 350px;
+        margin-top: auto;
+        margin-bottom: auto;
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 10px;
+
+    }
+
+    .title {
+        background-color: rgba(255, 255, 255, 0.301);
+        color: black;
+    }
+
+    .form_container {
+        margin-top: 20px;
+    }
+
+
+    .login_btn {
+        width: 100%;
+        background: #33ccff !important;
+        color: white !important;
+    }
+
+    .login_btn:focus {
+        box-shadow: none !important;
+        outline: 0px !important;
+    }
+
+    .login_container {
+        padding: 0 2rem;
+    }
+
+    .input-group-text {
+        background: #f7ba5b !important;
+        color: white !important;
+        border: 0 !important;
+        border-radius: 0.25rem 0 0 0.25rem !important;
+    }
+
+    .input_user,
+    .input_pass:focus {
+        box-shadow: none !important;
+        outline: 0px !important;
+    }
+
+    #messages {
+        background-color: grey;
+        color: #fff;
+        padding: 10px;
+        margin-top: 10px;
+    }
+
+    #form-title {
+        color: rgb(0, 0, 0);
+    }
+
+    .d-block{
+        color: antiquewhite;
+    }
+
+    #top-heading{
+        background-color: black;
+    }
+</style>
+{% endblock styles %}
+
+{% block content %}
+<body>
+    <div class="d-flex justify-content-center h-100">
+
+
+        <div class="user_card rounded border border-white text-white">
+
+            <div class="d-flex justify-content-center title rounded shadow-lg h2 py-2" id="top-heading">
+                <div class="d-block">Hotel ZerO</div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <h3 id="form-title" class="mt-2">CREATE ACCOUNT</h3>
+            </div>
+            {% if messages %}
+                {% for message in messages %}
+                <div
+                  class="alert {% if message.tags == 'error' %}alert-warning {% else %} alert-{{ message.tags }}{% endif %}"
+                  role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                  {{message}}
+                </div>
+                {% endfor %}
+            {% endif %}
+            <div class="d-flex justify-content-center form_container">
+                
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" name="username" placeholder="Username..." class="form-control">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" name="password" placeholder="Password..." class="form-control">
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-3 login_container">
+                        <input class="btn login_btn" type="submit" value="Login">
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="mt-4 text-white">
+                <div class="d-flex justify-content-center links">
+                    Don't have an account? <a href="{% url 'register' %}" class="ml-2 text-warning">Sign Up</a>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>iv>
+    </div>
+</body>
+{% endblock content %}
+
+</html>
