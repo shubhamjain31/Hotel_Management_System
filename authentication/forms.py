@@ -6,6 +6,34 @@ from django import forms
 from .models import *
 
 class CreateUserForm(UserCreationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Username',
+    }))
+    firstName = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'First Name',
+    }))
+    lastName = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Last Name',
+    }))
+    email = forms.EmailField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Email',
+    }))
+    password1 = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'type': 'password',
+        'placeholder': 'Password',
+    }))
+    password2 = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'type': 'password',
+        'placeholder': 'Re-Password',
+    }))
+
+
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']

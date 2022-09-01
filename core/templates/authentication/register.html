@@ -1,161 +1,105 @@
-{% extends 'includes/base.html' %}
-{% load static %}
-{% block title %}Register{% endblock title %}
+{% extends "layouts/base-fullscreen.html" %}
 
-{% block styles %}
-<style>
-    body,
-    html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        background-image: url("{% static '/images/hotel.jpg' %}");
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
+{% block title %} Register {% endblock %} 
 
-
-    .user_card {
-        width: 350px;
-        margin-top: auto;
-        margin-bottom: auto;
-        background-color: rgba(255, 255, 255, 0.2);
-        padding: 10px;
-
-    }
-
-    .form_container {
-        margin-top: 20px;
-    }
-
-    #form-title {
-        color: rgb(0, 0, 0);
-    }
-
-    .login_btn {
-        width: 100%;
-        background: #33ccff !important;
-        color: white !important;
-    }
-
-    .login_btn:focus {
-        box-shadow: none !important;
-        outline: 0px !important;
-    }
-
-    .login_container {
-        padding: 0 2rem;
-    }
-
-    .input-group-text {
-        background: #f7ba5b !important;
-        color: white !important;
-        border: 0 !important;
-        border-radius: 0.25rem 0 0 0.25rem !important;
-    }
-
-    .input_user,
-    .input_pass:focus {
-        box-shadow: none !important;
-        outline: 0px !important;
-    }
-</style>
-
-{% endblock styles %}
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-<body>
 
-    <div class="d-flex justify-content-center h-100">
-        <div class="user_card rounded border border-white text-white">
-            <div class="d-flex justify-content-center">
-                <h3 id="form-title">REGISTER ACCOUNT</h3>
-            </div>
-            <div class="d-flex justify-content-center form_container">
+        <div class="row">
+          <div class="col-md-8 mx-auto">
+            <div class="card">
 
-                <form method="POST" action="">
-                    {% csrf_token %}
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span>
-                        </div>
-                        {{form.username}}
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span>
-                        </div>
-                        {{form.first_name}}
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span>
-                        </div>
-                        {{form.last_name}}
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
-                        </div>
-                        {{form.email}}
-                    </div>
+              <form role="form" method="post" action="">{% csrf_token %}
+              
+                <div class="card-header text-center">
+                  <h5 class="title">Register</h5>
 
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                        </div>
-                        <input type="tel" name="phoneNumber" pattern="[0-9]{10}" maxlength="10" id="id_phoneNumber"
-                            class="form-control border border-secondary" placeholder="5*********" required>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-key"></i></span>
-                        </div>
-                        {{form.password1}}
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-key"></i></span>
-                        </div>
-                        {{form.password2}}
-                    </div>
-
-                    <div class="d-flex justify-content-center mt-3 login_container">
-                        <input class="btn login_btn" type="submit" value="Register as a Guest">
-                    </div>
-                </form>
-            </div>
-
-            {{form.errors}}
-
-            <div class="mt-4">
-                <div class="d-flex justify-content-center links text-dark">
-                    Already have an account? <a href="{% url 'login' %}" class="ml-2 text-warning">Login</a>
+                  <h6 class="card-category">
+                      Add your credentials
+                  </h6>
                 </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+                      <div class="col-md-3 px-md-1 mx-auto">
+                        <div class="form-group">
+                          <label>Username</label>
+                          {{form.username}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-3 px-md-1 mx-auto">
+                        <div class="form-group">
+                          <label>First Name</label>
+                          {{form.firstName}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-3 px-md-1 mx-auto">
+                        <div class="form-group">
+                          <label>Last Name</label>
+                          {{form.lastName}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-3 px-md-1 mx-auto">
+                        <div class="form-group">
+                          <label>Email</label>
+                          {{form.email}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-3 px-md-1 mx-auto">
+                        <div class="form-group">
+                          <label>Phone</label>
+                          <input class="form-control" type="tel" placeholder="5*********" name="phoneNumber" pattern="[0-9]{10}" maxlength="10"  required="">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-3 px-md-1 mx-auto">
+                        <div class="form-group">
+                          <label>Password</label>
+                          {{form.password1}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-3 px-md-1 mx-auto">
+                        <div class="form-group">
+                          <label>Confirm Password</label>
+                          {{form.password2}}
+                        </div>
+                      </div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer row">
+                  <button type="submit" name="register" class="btn btn-fill btn-primary mx-auto">Register</button>
+                </div>
+
+              </form>
+
             </div>
-        </div>
-    </div>
-    <script>
-        /* Because i didnt set placeholder values in forms.py they will be set here using vanilla Javascript
-//We start indexing at one because CSRF_token is considered and input field 
-*/
-        //Query All input fields
-        var form_fields = document.getElementsByTagName('input')
-        form_fields[1].placeholder = 'Username..';
-        form_fields[2].placeholder = 'First Name..';
-        form_fields[3].placeholder = 'Last Name..';
-        form_fields[4].placeholder = 'Email..';
-        form_fields[6].placeholder = 'Enter password...';
-        form_fields[7].placeholder = 'Re-enter Password...';
+            Have an account? <a href="/login" class="text-primary">Login</a>
+          </div>
+      </div>
 
 
-        for (var field in form_fields) {
-            form_fields[field].className += ' form-control'
-        }
-    </script>
-
-</body>
 {% endblock content %}
 
-</html>
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
