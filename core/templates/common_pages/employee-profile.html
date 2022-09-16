@@ -28,84 +28,123 @@
         {% endif %}
         <form action="" method="POST">{% csrf_token %}
           <div class="row">
-            <div class="col-md-5 pr-md-1">
+            <div class="col-md-6 pr-md-1">
               <div class="form-group">
-                <label>UserID (disabled)</label>
-                <input type="text" class="form-control" disabled="" value="{{ request.user.id }}">
+                <label>First Name</label>
+                {% if employee.user.id != request.user.id %}
+                <input type="text" class="form-control" disabled="" value="{{employee.user.first_name}}">
+                {% else %}
+                <input type="text" class="form-control" value="{{employee.user.first_name}}" name="first_name" id="id_first_name">
+                {% endif %}
               </div>
             </div>
-            <div class="col-md-3 px-md-1">
+            <div class="col-md-6 px-md-1">
               <div class="form-group">
-                <label>Username</label>
-                <input type="text" class="form-control" value="{{ request.user.username }}">
-              </div>
-            </div>
-            <div class="col-md-4 pl-md-1">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" value="{{ request.user.email }}">
+                <label>Last Name</label>
+                {% if employee.user.id != request.user.id %}
+                <input type="text" class="form-control" disabled="" value="{{employee.user.last_name}}">
+                {% else %}
+                <input type="text" class="form-control" value="{{employee.user.last_name}}" name="last_name" id="id_last_name">
+                {% endif %}
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-6 pr-md-1">
               <div class="form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control" placeholder="Company" value="Mike">
+                <label>Email</label>
+                <input type="email" class="form-control text-info" disabled="" value="{{employee.user.email}}">
               </div>
             </div>
             <div class="col-md-6 pl-md-1">
               <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control" placeholder="Last Name" value="Andrew">
+                <label>Creation Date</label>
+                <input type="text" class="form-control text-info" disabled="" value="{{employee.user.date_joined|date:'Y-m-d'}}">
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6 pr-md-1">
               <div class="form-group">
-                <label>Address</label>
-                <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                <label>Phone Number</label>
+                {% if employee.user.id != request.user.id %}
+                <input type="text" class="form-control text-info" disabled="" value="{{employee.phoneNumber}}">
+                {% else %}
+                <input type="text" class="form-control" value="{{employee.phoneNumber}}" name="phoneNumber" id="id_phoneNumber">
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-md-6 pl-md-1">
+              <div class="form-group">
+                <label>Role</label>
+                <input type="text" class="form-control text-info" disabled="" value="{{employee.user.groups.first}}">
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-4 pr-md-1">
+            <div class="col-md-6 pr-md-1">
               <div class="form-group">
-                <label>City</label>
-                <input type="text" class="form-control" placeholder="City" value="Mike">
+                <label>Salary</label>
+                <input type="text" class="form-control text-info" disabled="" value="{{employee.salary}}">
               </div>
             </div>
-            <div class="col-md-4 px-md-1">
+            <div class="col-md-6 pl-md-1">
               <div class="form-group">
-                <label>Country</label>
-                <input type="text" class="form-control" placeholder="Country" value="Andrew">
-              </div>
-            </div>
-            <div class="col-md-4 pl-md-1">
-              <div class="form-group">
-                <label>Postal Code</label>
-                <input type="number" class="form-control" placeholder="ZIP Code">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-8">
-              <div class="form-group">
-                <label>About Me</label>
-                <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description" value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea>
+                <label>Role</label>
+                <input type="text" class="form-control text-info" disabled="" value="{{employee.user.groups.first}}">
               </div>
             </div>
           </div>
         </form>
       </div>
+      {% if employee.user.id == request.user.id %}
       <div class="card-footer">
         <button type="submit" class="btn btn-fill btn-primary">Save</button>
       </div>
+      {% endif %}
     </div>
   </div>
 </div>
 
+{% if role == 'staff' or request.user != employee.user %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="title">Task List</h5>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Task ID</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if tasks|length == 0 %}
+            <td></td>
+            <td>No Data</td>
+            <td></td>
+            <td></td>
+            {% endif %}
+
+            {% for tasks in tasks %}
+            <tr>
+                <td>{{tasks.id}}</td>
+                <td>{{tasks.startTime}}</td>
+                <td>{{tasks.endTime}}</td>
+                <td>{{tasks.description}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+{% endif %}
 
 {% endblock content %}
 
