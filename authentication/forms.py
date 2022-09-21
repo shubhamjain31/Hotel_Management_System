@@ -6,28 +6,40 @@ from django import forms
 from .models import *
 
 class CreateUserForm(UserCreationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={
+    username = forms.CharField(error_messages={
+        'required'            : 'Please Enter Username'
+    },widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'Username',
     }))
-    firstName = forms.CharField(widget=forms.TextInput(attrs={
+    firstName = forms.CharField(error_messages={
+        'required'            : 'Please Enter First Name'
+    },widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'First Name',
     }))
-    lastName = forms.CharField(widget=forms.TextInput(attrs={
+    lastName = forms.CharField(error_messages={
+        'required'            : 'Please Enter Last Name'
+    },widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'Last Name',
     }))
-    email = forms.EmailField(widget=forms.TextInput(attrs={
+    email = forms.EmailField(error_messages={
+        'required'            : 'Please Enter Email'
+    },widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'Email',
     }))
-    password1 = forms.CharField(widget=forms.TextInput(attrs={
+    password1 = forms.CharField(error_messages={
+        'required'            : 'Please Enter Password'
+    },widget=forms.TextInput(attrs={
         'class': 'form-control',
         'type': 'password',
         'placeholder': 'Password',
     }))
-    password2 = forms.CharField(widget=forms.TextInput(attrs={
+    password2 = forms.CharField(error_messages={
+        'required'            : 'Please Enter Confirm-Password'
+    },widget=forms.TextInput(attrs={
         'class': 'form-control',
         'type': 'password',
         'placeholder': 'Re-Password',

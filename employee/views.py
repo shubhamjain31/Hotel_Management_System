@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.db.models import Q
 
 from .models import Employee, Task
+from .forms import CreateEmployeeForm
+from authentication.forms import ROLES, CreateUserForm
 
 # Create your views here.
 
@@ -89,3 +91,45 @@ def employees(request):
         "employees": employees
     }
     return render(request, path + "employees.html", context)
+
+def add_employee(request):
+    role = str(request.user.groups.all()[0])
+    path = role + "/"
+
+    form    = CreateUserForm()
+    form2   = ROLES()
+    form3   = CreateEmployeeForm()
+
+    if request.method == 'POST':
+        post = request.POST.copy()  # to make it mutable
+        post['phoneNumber'] = "+90" + post['phoneNumber']
+        request.POST = post
+
+        form        = CreateUserForm(request.POST)
+        form2       = ROLES(request.POST)
+        form3       = CreateEmployeeForm(request.POST)
+
+        if form.is_valid() and form2.is_valid() and form3.is_valid():
+            user            = form.save()
+            employee        = form3.save()
+            employee.user   = user
+            employee.save()
+
+            username = form.cleaned_data.get('username')
+
+            role = form2.cleaned_data.get("ROLES_TYPES")
+
+            group = Group.objects.get(name=role)
+            user.groups.add(group)
+
+            messages.success(
+                request, role + ' Account Was Created Succesfuly For ' + username)
+
+            return redirect('employees')
+    context = {
+        'form': form,
+        'form2': form2,
+        'form3': form3,
+        "role": role
+    }
+    return render(request, path + "add-employee.html", context)
