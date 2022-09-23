@@ -12,13 +12,13 @@ class CreateUserForm(UserCreationForm):
         'class': 'form-control',
         'placeholder': 'Username',
     }))
-    firstName = forms.CharField(error_messages={
+    first_name = forms.CharField(error_messages={
         'required'            : 'Please Enter First Name'
     },widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'First Name',
     }))
-    lastName = forms.CharField(error_messages={
+    last_name = forms.CharField(error_messages={
         'required'            : 'Please Enter Last Name'
     },widget=forms.TextInput(attrs={
         'class': 'form-control',

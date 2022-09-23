@@ -102,8 +102,9 @@ def add_employee(request):
 
     if request.method == 'POST':
         post = request.POST.copy()  # to make it mutable
-        post['phoneNumber'] = "+90" + post['phoneNumber']
+        post['phoneNumber'] = "+91" + post['phoneNumber']
         request.POST = post
+        print(request.POST)
 
         form        = CreateUserForm(request.POST)
         form2       = ROLES(request.POST)
@@ -126,6 +127,9 @@ def add_employee(request):
                 request, role + ' Account Was Created Succesfuly For ' + username)
 
             return redirect('employees')
+        else:
+            print(form3.errors)
+            print(form.errors)
     context = {
         'form': form,
         'form2': form2,
