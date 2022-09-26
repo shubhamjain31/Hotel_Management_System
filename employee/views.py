@@ -30,11 +30,11 @@ def employee_details(request, pk):
 
     tempUser    = User.objects.get(id=pk)
     employee    = Employee.objects.get(user=tempUser)
-    tasks       = Task.objects.filter(employee=employee)
+    # tasks       = Task.objects.filter(employee=employee)
     context = {
         "role": role,
         "employee": employee,
-        "tasks": tasks
+        # "tasks": tasks
     }
     return render(request, path + "employee-profile.html", context)
 
@@ -137,3 +137,46 @@ def add_employee(request):
         "role": role
     }
     return render(request, path + "add-employee.html", context)
+
+@login_required(login_url='login')
+def tasks(request):
+    role        = str(request.user.groups.all()[0])
+    path        = role + "/"
+
+    tempEmp     = Employee.objects.get(user=request.user)
+    tasks       = Task.objects.filter(employee=tempEmp)
+
+    context = {
+        "role": role,
+        'tasks': tasks
+    }
+    if request.method == "POST":
+        if "markAsComplete" in request.POST:
+            tid = request.POST.get("tid")
+            Task.objects.get(id=tid).delete()
+            return redirect("tasks")
+
+        if "filter" in request.POST:
+            if(request.POST.get("id") != ""):
+                tasks = tasks.filter(id=request.POST.get("id"))
+
+            if(request.POST.get("desc") != ""):
+                tasks = tasks.filter(
+                    description__contains=request.POST.get("desc"))
+
+            if(request.POST.get("fd") != ""):
+                tasks = tasks.filter(startTime__gte=request.POST.get("fd"))
+
+            if(request.POST.get("ed") != ""):
+                tasks = tasks.filter(endTime__lte=request.POST.get("ed"))
+
+            context = {
+                "role": role,
+                "tasks": tasks,
+                "id": request.POST.get("id"),
+                "desc": request.POST.get("desc"),
+                "fd": request.POST.get("fd"),
+                "ed": request.POST.get("ed")
+            }
+
+    return render(request, path + "tasks.html", context)

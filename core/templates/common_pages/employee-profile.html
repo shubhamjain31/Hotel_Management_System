@@ -11,11 +11,18 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        {% if employee.user.id != request.user.id %}
-        <h5 class="title">View Profile</h5>
-        {% else %}
-        <h5 class="title">Edit Profile</h5>
-        {% endif %}
+        <div class="row">
+          <div class="col-6">
+            {% if employee.user.id != request.user.id %}
+            <h5 class="title">View Profile</h5>
+            {% else %}
+            <h5 class="title">Edit Profile</h5>
+            {% endif %}
+          </div>
+          <div class="col-6 text-right">
+            <input type=button value="Back" onClick="javascript:history.go(-1);">
+          </div>
+        </div>
       </div>
       <div class="card-body">
         {% if messages %}
@@ -99,55 +106,20 @@
               </div>
             </div>
           </div>
+          {% if employee.user.id == request.user.id %}
+          <div class="card-footer">
+            <button type="submit" class="btn btn-fill btn-primary">Save</button>
+          </div>
+          {% endif %}
         </form>
       </div>
-      {% if employee.user.id == request.user.id %}
-      <div class="card-footer">
-        <button type="submit" class="btn btn-fill btn-primary">Save</button>
-      </div>
-      {% endif %}
     </div>
   </div>
 </div>
 
 {% if role == 'staff' or request.user != employee.user %}
 <div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h5 class="title">Task List</h5>
-      </div>
-      <div class="card-body">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Task ID</th>
-              <th scope="col">Start Date</th>
-              <th scope="col">End Date</th>
-              <th scope="col">Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% if tasks|length == 0 %}
-            <td></td>
-            <td>No Data</td>
-            <td></td>
-            <td></td>
-            {% endif %}
-
-            {% for tasks in tasks %}
-            <tr>
-                <td>{{tasks.id}}</td>
-                <td>{{tasks.startTime}}</td>
-                <td>{{tasks.endTime}}</td>
-                <td>{{tasks.description}}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-    </div>
-  </div>
-</div>
+ </div>
 {% endif %}
 
 {% endblock content %}

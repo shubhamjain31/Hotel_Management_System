@@ -8,11 +8,18 @@
 {% block content %}
 <div class="container py-5">
 
-    {% for message in messages %}
-    <div class="alert alert-success" role="alert">
-        {{message}}
-    </div>
-    {% endfor %}
+    {% if messages %}
+            {% for message in messages %}
+            <div
+                class="alert {% if message.tags == 'error' %}alert-warning {% else %} alert-{{ message.tags }}{% endif %} mt-2"
+                role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+                {{message}}
+            </div>
+            {% endfor %}
+    {% endif %}
 
 
     <div class="table-header row">
@@ -47,6 +54,16 @@
             </tr>
         </thead>
         <tbody>
+            {% if employees|length == 0 %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td><h4>No Data</h4></td>
+                <td></td>
+                <td></td>
+            </tr>
+            {% endif %}
+
             {% for employee in employees %}
             <tr>
                 <td>{{ employee.user.id }}</td>
