@@ -88,7 +88,7 @@
             <div class="col-md-6 pl-md-1">
               <div class="form-group">
                 <label>Role</label>
-                <input type="text" class="form-control text-info" disabled="" value="{{employee.user.groups.first}}">
+                <input type="text" class="form-control text-info" disabled="" value="{{employee.user.groups.first|title}}">
               </div>
             </div>
           </div>
@@ -99,12 +99,12 @@
                 <input type="text" class="form-control text-info" disabled="" value="{{employee.salary}}">
               </div>
             </div>
-            <div class="col-md-6 pl-md-1">
+            <!-- <div class="col-md-6 pl-md-1">
               <div class="form-group">
                 <label>Role</label>
                 <input type="text" class="form-control text-info" disabled="" value="{{employee.user.groups.first}}">
               </div>
-            </div>
+            </div> -->
           </div>
           {% if employee.user.id == request.user.id %}
           <div class="card-footer">
