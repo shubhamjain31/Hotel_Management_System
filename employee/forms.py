@@ -20,7 +20,7 @@ class CreateEmployeeForm(ModelForm):
         model = Employee
         fields = ['phoneNumber', 'salary']
 
-class editEmployee(ModelForm):
+class EditEmployeeForm(ModelForm):
     class Meta:
         model = Employee
         fields = ["phoneNumber", "salary"]

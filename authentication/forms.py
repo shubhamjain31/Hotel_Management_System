@@ -50,7 +50,7 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
-class editUser(ModelForm):
+class EditUserForm(ModelForm):
     class Meta:
         model = User
         fields = ["first_name", "last_name", "email"]

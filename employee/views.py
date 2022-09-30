@@ -5,8 +5,8 @@ from django.contrib import messages
 from django.db.models import Q
 
 from .models import Employee, Task
-from .forms import CreateEmployeeForm
-from authentication.forms import ROLES, CreateUserForm
+from .forms import CreateEmployeeForm, EditEmployeeForm
+from authentication.forms import ROLES, CreateUserForm, EditUserForm
 
 # Create your views here.
 
@@ -137,6 +137,34 @@ def add_employee(request):
         "role": role
     }
     return render(request, path + "add-employee.html", context)
+
+@ login_required(login_url='login')
+def employee_details_edit(request, pk):
+    role = str(request.user.groups.all()[0])
+    path = role + "/"
+
+    tempuser = User.objects.get(id=pk)
+    employee = Employee.objects.get(user=tempuser)
+
+    form1 = EditEmployeeForm(instance=employee)
+    form2 = EditUserForm(instance=tempuser)
+
+    context = {
+        "role": role,
+        "employee": employee,
+        "user": tempuser,
+        "form1": form1,
+        "form2": form2
+    }
+
+    if request.method == "POST":
+        form1 = EditEmployeeForm(request.POST, instance=employee)
+        form2 = EditUserForm(request.POST, instance=tempuser)
+        if form1.is_valid() and form2.is_valid():
+            form1.save()
+            form2.save()
+
+    return render(request, path + "employee-edit.html", context)
 
 @login_required(login_url='login')
 def tasks(request):
