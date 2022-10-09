@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -8,6 +8,7 @@ from datetime import datetime, date, timedelta
 
 from .models import Guest
 from room.models import Booking
+from hotel.models import EventAttendees
 
 # Create your views here.
 
@@ -127,3 +128,28 @@ def guests(request):
         "ld": ld
     }
     return render(request, path + "guests.html", context)
+
+@login_required(login_url='login')
+def guest_profile(request, pk):
+    tempUser    = User.objects.get(id=pk)
+    guest       = Guest.objects.get(user=tempUser)
+
+    if request.method == 'POST':
+        tempUser.first_name     = request.POST.get("first_name")
+        tempUser.last_name      = request.POST.get("last_name")
+        guest.phoneNumber       = request.POST.get("phoneNumber")
+        tempUser.save()
+        guest.save()
+        return redirect("home")
+    role = str(request.user.groups.all()[0])
+    path = role + "/"
+
+    eventAttendees = EventAttendees.objects.filter(guest=guest)
+    bookings = Booking.objects.filter(guest=guest)
+    context = {
+        "role": role,
+        "guest": guest,
+        "eventAttendees": eventAttendees,
+        "bookings": bookings
+    }
+    return render(request, path + "guest-profile.html", context)

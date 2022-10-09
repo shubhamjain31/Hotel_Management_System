@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 
 from phonenumber_field.modelfields import PhoneNumberField
 
+from room.models import Booking
+
 # Create your models here.
 
 

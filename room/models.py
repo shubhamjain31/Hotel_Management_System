@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-from guest.models import Guest
+# from guest.models import Guest
 
 # Create your models here.
 
@@ -28,7 +28,7 @@ class Room(models.Model):
 
 class Booking(models.Model):
     roomNumber          = models.ForeignKey(Room, on_delete=models.CASCADE)
-    guest               = models.ForeignKey(Guest, null=True, on_delete=models.CASCADE)
+    guest               = models.ForeignKey("guest.Guest", null=True, on_delete=models.CASCADE)
     dateOfReservation   = models.DateField(default=timezone.now)
     startDate           = models.DateField()
     endDate             = models.DateField()
@@ -49,7 +49,7 @@ class Dependees(models.Model):
 
 
 class Refund(models.Model):
-    guest           = models.ForeignKey(Guest, null=True, on_delete=models.CASCADE)
+    guest           = models.ForeignKey("guest.Guest", null=True, on_delete=models.CASCADE)
     reservation     = models.ForeignKey(Booking, on_delete=models.CASCADE)
     reason          = models.TextField()
 
