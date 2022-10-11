@@ -9,6 +9,7 @@ from datetime import datetime, date, timedelta
 from .models import Guest
 from room.models import Booking
 from hotel.models import EventAttendees
+from authentication.forms import editGuest, EditUserForm, EditUserForm
 
 # Create your views here.
 
@@ -158,10 +159,10 @@ def guest_profile(request, pk):
 def guest_edit(request, pk):
     role = str(request.user.groups.all()[0])
     path = role + "/"
-    tempuser = User.objects.get(id=pk)
-    guest = Guest.objects.get(user=tempuser)
-    form1 = editGuest(instance=guest)
-    form2 = editUser(instance=tempuser)
+    tempuser    = User.objects.get(id=pk)
+    guest       = Guest.objects.get(user=tempuser)
+    form1       = editGuest(instance=guest)
+    form2       = EditUserForm(instance=tempuser)
 
     context = {
         "role": role,
@@ -172,8 +173,8 @@ def guest_edit(request, pk):
     }
 
     if request.method == "POST":
-        form1 = editGuest(request.POST, instance=guest)
-        form2 = editUser(request.POST, instance=tempuser)
+        form1       = editGuest(request.POST, instance=guest)
+        form2       = EditUserForm(request.POST, instance=tempuser)
         if form1.is_valid and form2.is_valid:
             form1.save()
             form2.save()
