@@ -55,7 +55,7 @@ class EditUserForm(ModelForm):
         model = User
         fields = ["first_name", "last_name", "email"]
 
-class editGuest(ModelForm):
+class EditGuest(ModelForm):
     class Meta:
         model = Guest
         fields = ["phoneNumber"]
