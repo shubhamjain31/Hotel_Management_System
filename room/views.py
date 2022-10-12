@@ -109,7 +109,7 @@ def room_profile(request, id):
             tempRoom.statusStartDate    = None
             tempRoom.statusEndDate      = None
             tempRoom.save()
-            
+
         if "deleteRoom" in request.POST:
             check = True
             for b in bookings:
@@ -122,3 +122,20 @@ def room_profile(request, id):
                 messages.error(request, "There is a booking in the interval!")
 
     return render(request, path + "room-profile.html", context)
+
+@login_required(login_url='login')
+def deleteBooking(request, pk):
+    role    = str(request.user.groups.all()[0])
+    path    = role + "/"
+
+    booking = Booking.objects.get(id=pk)
+    if request.method == "POST":
+        booking.delete()
+        return redirect('bookings')
+
+    context = {
+        "role": role,
+        'booking': booking
+
+    }
+    return render(request, path + "deleteBooking.html", context)
