@@ -1,0 +1,54 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Bookings {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container py-5">
+
+    {% if messages %}
+            {% for message in messages %}
+            <div
+                class="alert {% if message.tags == 'error' %}alert-warning {% else %} alert-{{ message.tags }}{% endif %} mt-2"
+                role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+                {{message}}
+            </div>
+            {% endfor %}
+    {% endif %}
+
+
+    <div class="row justify-content-center m-5">
+
+        <div class="card border-danger shadow-lg w-50">
+    
+            <div class="card-body mx-auto">
+    
+                <p class="font-weight-bold">Are you sure you want to delete This Booking : ?</p> <br>
+                <p>Room number : <span class="text-success">&nbsp;{{ booking.roomNumber.number }}</span> </p> <br>
+                <p>Guest name : <span class="text-success">{{ booking.guest.user.first_name }} {{ booking.guest.user.last_name }}</span></p><br>
+                <p>from <span class="text-success">{{ booking.startDate|date:'Y-m-d' }}</span> to <span class="text-success">{{ booking.endDate|date:'Y-m-d' }}</span></p>
+    
+                <form action="{% url 'deleteBooking' booking.id %}" method="post">
+                    {% csrf_token %}
+                    <a class="btn btn-info" href="{% url 'bookings' %}">Cancel</a>
+    
+                    <input class="btn btn-danger" type="submit" value="Confirm">
+                </form>
+    
+            </div>
+    
+        </div>
+    
+    </div>
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

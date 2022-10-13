@@ -42,6 +42,8 @@
                                 class="form-control border border-secondary bg-dark mb-3" placeholder="Phone Number">
                         <th>End Day<input type="date" name="ed" value="{{ed}}"
                                     class="form-control border border-secondary bg-dark mb-3" placeholder="Phone Number">
+                        <th class="text-info">Number of Dependees</th>
+                        <th class="text-info">Total amount</th>
                         <th><button type="submit" name="filter" class="btn btn-warning w-100">Filter</button></th>
                     </form>
                 </tr>
@@ -61,14 +63,16 @@
                 <tr>
                     <td><a href="{% url 'room-profile' booking.roomNumber.number %}">{{booking.roomNumber.number}}</a></td>
                     <td><a href="{% url 'guest-profile' booking.guest.user.id %}">{{booking.guest.user.first_name}}</a></td>
-                    <td>{{ booking.dateOfReservation }}</td>
-                    <td>{{ booking.startDate }}</td>
-                    <td>{{ booking.endDate }}</td>
+                    <td>{{ booking.dateOfReservation|date:'Y-m-d' }}</td>
+                    <td>{{ booking.startDate|date:'Y-m-d' }}</td>
+                    <td>{{ booking.endDate|date:'Y-m-d' }}</td>
                     <td>{{ booking.numOfDep }}</td>
                     <td>
                         {% for key, value in totals.items %}
                         {% if key == b %}
                         {{ value }}
+                        {% else %}
+                        0
                         {% endif %}
                         {% endfor %}
                     </td>
