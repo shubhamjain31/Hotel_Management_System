@@ -6,6 +6,7 @@ from django.contrib import messages
 
 from .models import Booking, Room
 from guest.models import Guest
+from validators import is_invalid
 
 import datetime
 
@@ -37,7 +38,7 @@ def bookings(request):
                 bookings = bookings.filter(
                     roomNumber__in=rooms)
 
-            if (request.POST.get("name") != ""):
+            if (request.POST.get("name") is not None):
                 users    = User.objects.filter(Q(first_name__contains=request.POST.get("name")) | Q(last_name__contains=request.POST.get("name")))
                 guests   = Guest.objects.filter(user__in=users)
                 bookings = bookings.filter(guest__in=guests)
@@ -55,7 +56,7 @@ def bookings(request):
                 "role": role,
                 'bookings': bookings,
                 'totals': totals,
-                "name": request.POST.get("name"),
+                "name": request.POST.get("name") or '',
                 "number": request.POST.get("number"),
                 "rez": request.POST.get("rez"),
                 "fd": request.POST.get("fd"),
