@@ -93,8 +93,8 @@ def room_profile(request, id):
         if "lockRoom" in request.POST:
             fd      = request.POST.get("bsd")
             ed      = request.POST.get("bed")
-            fd      = datetime.strptime(fd, '%Y-%m-%d')
-            ed      = datetime.strptime(ed, '%Y-%m-%d')
+            fd      = datetime.datetime.strptime(fd, '%Y-%m-%d')
+            ed      = datetime.datetime.strptime(ed, '%Y-%m-%d')
             check   = True
             for b in bookings:
                 if b.endDate >= fd.date() and b.startDate <= ed.date():
@@ -114,7 +114,7 @@ def room_profile(request, id):
         if "deleteRoom" in request.POST:
             check = True
             for b in bookings:
-                if b.startDate <= datetime.now().date() or b.endDate >= datetime.now().date():
+                if b.startDate <= datetime.datetime.now().date() or b.endDate >= datetime.datetime.now().date():
                     check = False
             if check:
                 tempRoom.delete()

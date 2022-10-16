@@ -157,7 +157,7 @@
             <tbody>
                 {% for booking in bookings %}
                 <tr>
-                    <td>{{booking.dateOfReservation}}</td>
+                    <td>{{booking.dateOfReservation|date:'Y-m-d'}}</td>
                     <td>{{booking.startDate|date:'Y-m-d'}}</td>
                     <td>{{booking.endDate|date:'Y-m-d'}}</td>
                     <td>{{booking.numOfResidents|default:"--"}}</td>
