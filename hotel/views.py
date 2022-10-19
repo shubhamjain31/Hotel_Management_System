@@ -12,9 +12,7 @@ def events(request):
     path    = role + "/"
 
     events = Event.objects.all()
-
-    # eventAttendees = EventAttendees.objects.filter(guest = request.user.guest, event = )
-
+    
     attendedEvents = None
     if role == 'guest':
         attendedEvents = EventAttendees.objects.filter(

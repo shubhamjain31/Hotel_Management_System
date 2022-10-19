@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include('employee.urls')),
     path('', include('guest.urls')),
     path('', include('room.urls')),
+    path('', include('hotel.urls')),
 ]
