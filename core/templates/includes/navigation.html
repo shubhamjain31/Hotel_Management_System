@@ -66,7 +66,7 @@
                   <li class="nav-link"><a href="{% url 'bookings' %}" class="nav-item dropdown-item">Bookings</a></li>
                   <li class="nav-link"><a href="" class="nav-item dropdown-item">Rooms</a></li>
                   <li class="nav-link"><a href="" class="nav-item dropdown-item">Room Services</a></li>
-                  <li class="nav-link"><a href="" class="nav-item dropdown-item">Announcements</a></li>
+                  <li class="nav-link"><a href="{% url 'announcements' %}" class="nav-item dropdown-item">Announcements</a></li>
                   <li class="nav-link"><a href="" class="nav-item dropdown-item">Storage</a></li>
                   <li class="nav-link"><a href="" class="nav-item dropdown-item">Refunds</a></li>
                   {% elif role == 'receptionist' %}
@@ -74,10 +74,10 @@
                   <li class="nav-link"><a href="" class="nav-item dropdown-item">Room Information</a></li>
                   <li class="nav-link"><a href="" class="nav-item dropdown-item">Event Information</a></li>
                   <li class="nav-link"><a href="" class="nav-item dropdown-item">Booking Information</a></li>
-                  <li class="nav-link"><a href="" class="nav-item dropdown-item">Announcements</a></li>
+                  <li class="nav-link"><a href="{% url 'announcements' %}" class="nav-item dropdown-item">Announcements</a></li>
                   {% elif role == 'staff' %}
                   <li class="nav-link"><a href="/tasks/" class="nav-item dropdown-item">My Tasks</a></li>
-                  <li class="nav-link"><a href="" class="nav-item dropdown-item">Announcements</a></li>
+                  <li class="nav-link"><a href="{% url 'announcements' %}" class="nav-item dropdown-item">Announcements</a></li>
                   <li class="nav-link"><a href="" class="nav-item dropdown-item">Food Menu</a></li>
                   <li class="nav-link"><a href="" class="nav-item dropdown-item">Storage</a></li>
                   {% endif %}

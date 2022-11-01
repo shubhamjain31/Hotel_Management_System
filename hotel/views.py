@@ -80,3 +80,55 @@ def events(request):
         "ed":               request.POST.get("ed")
     }
     return render(request, path + "events.html", context)
+
+@ login_required(login_url='login')
+def announcements(request):
+    role = str(request.user.groups.all()[0])
+    path = role + "/"
+
+    announcements = Announcement.objects.all()
+    context = {
+        "role": role,
+        'announcements': announcements
+    }
+
+    if request.method == "POST":
+        if 'sendAnnouncement' in request.POST:  # send button clicked
+            sender = request.user.employee
+
+            announcement = Announcement(
+                sender=sender, content=request.POST.get('textid'))
+
+            announcement.save()
+            return redirect('announcements')
+
+        if "filter" in request.POST:
+            if (request.POST.get("id") != ""):
+                announcements = announcements.filter(
+                    id__contains=request.POST.get("id"))
+
+            if (request.POST.get("content") != ""):
+                announcements = announcements.filter(
+                    content__contains=request.POST.get("content"))
+
+            if (request.POST.get("name") != ""):
+                users = User.objects.filter(
+                    Q(first_name__contains=request.POST.get("name")) | Q(last_name__contains=request.POST.get("name")))
+                employees = Employee.objects.filter(user__in=users)
+                announcements = announcements.filter(sender__in=employees)
+
+            if (request.POST.get("date") != ""):
+                announcements = announcements.filter(
+                    date=request.POST.get("date"))
+
+        context = {
+            "role": role,
+            'announcements': announcements,
+            "id": request.POST.get("id"),
+            "name": request.POST.get("name"),
+            "content": request.POST.get("content"),
+            "date": request.POST.get("date")
+        }
+        return render(request, path + "announcements.html", context)
+
+    return render(request, path + "announcements.html", context)

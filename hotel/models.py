@@ -1,4 +1,7 @@
 from django.db import models
+from django.utils import timezone
+
+from employee.models import Employee
 
 # Create your models here.
 
@@ -29,3 +32,11 @@ class EventAttendees(models.Model):
 
     def __str__(self):
         return str(self.event) + " " + str(self.guest)
+
+class Announcement(models.Model):
+    content     = models.TextField()
+    sender      = models.ForeignKey(Employee, null=True, on_delete=models.CASCADE)
+    date        = models.DateField(default=timezone.now)
+
+    def __str__(self):
+        return str(self.sender)
