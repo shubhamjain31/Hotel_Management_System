@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from .models import EventAttendees, Event
+from .models import EventAttendees, Event, Announcement
 
 # Create your views here.
 
