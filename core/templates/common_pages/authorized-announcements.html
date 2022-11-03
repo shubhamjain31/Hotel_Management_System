@@ -1,40 +1,67 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Announcements {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
 <div class="container py-5">
+
+    {% if messages %}
+            {% for message in messages %}
+            <div
+                class="alert {% if message.tags == 'error' %}alert-warning {% else %} alert-{{ message.tags }}{% endif %} mt-2"
+                role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+                {{message}}
+            </div>
+            {% endfor %}
+    {% endif %}
 
 
     <div class="table-header row">
 
-        <div class="col-sm-12 col-md-12 col-lg-4 mb-4">
-            <h2>Announcements List</h2>
+        <div class="col-sm-12 col-md-12 col-lg-5 mb-4">
+            <h2>Announcements</h2>
         </div>
 
+
     </div>
-    <table class="table table-hover table-striped">
+    <table class="table table-hover table-striped mb-4">
         <thead class="bg-secondary rounded">
             <tr>
                 <form action="" method="POST">
                     {% csrf_token %}
-                    <th>ID<input type="number" name="id" value="{{id}}" class="form-control border border-secondary">
-                    </th>
-
-                    <th>Content<input type="text" name="content" value="{{content}}"
-                            class="form-control border border-secondary"></th>
-
-
+                    <th>ID<input type="number" name="id" value="{{id}}" class="form-control border border-secondary bg-dark mb-3"
+                        placeholder="ID"></th>
+                    <th>Name<input type="text" name="content" value="{{content}}"
+                            class="form-control border border-secondary bg-dark mb-3" placeholder="Content"></th>
                     <th>Sender Name<input type="text" name="name" value="{{name}}"
-                            class="form-control border border-secondary"></th>
-
-                    <th>Announced Date<input type="date" class="form-control border border-secondary" name="date"
-                            value="{{date}}"></th>
+                            class="form-control border border-secondary bg-dark mb-3" placeholder="Sender Name"></th>
+                    <th>Announced Date<input type="date" name="date" value="{{date}}"
+                            class="form-control border border-secondary bg-dark mb-3" placeholder="Announced Date">
                     <th><button type="submit" name="filter" class="btn btn-warning w-100">Filter</button></th>
-
                 </form>
             </tr>
         </thead>
         <tbody>
+            {% if guests|length == 0 %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td><h4>No Data</h4></td>
+                <td></td>
+                <td></td>
+            </tr>
+            {% endif %}
+
             {% for announcement in announcements %}
             <tr>
-                <td>{{announcement.id}}</td>
-                <td>{{announcement.content}}</td>
+                <td>{{ announcement.id }}</td>
+                <td>{{ announcement.content }}</td>
                 <td>{{announcement.sender.user.first_name}} {{announcement.sender.user.last_name}}</td>
                 <td>{{announcement.date}}</td>
                 {% if role == "manager" or role == "admin" %}
@@ -43,32 +70,36 @@
                 {% else %}
                 <td></td>
                 {% endif %}
+
             </tr>
             {% endfor %}
+
         </tbody>
 
     </table>
 
-</div>
+    {% if role == "manager" or role == "admin" %}
 
+        <div class="add-annoucment border-top my-3 mx-5 p-5">
+            <h4>Add Announcement</h4>
+            <form action="" method="POST">{% csrf_token %}
 
-{% if role == "manager" or role == "admin" %}
-
-<div class="add-annoucment border-top my-3 mx-5 p-5">
-    <h4>Add Announcement</h4>
-    <form action="" method="POST">
-        {% csrf_token %}
-
-        <div class="form-group">
-            <textarea class="form-control" name="textid" rows="8" placeholder="Enter Content of Announcement"
-                id="textid">
-
-            </textarea>
+                <div class="form-group">
+                    <textarea class="form-control" name="textid" rows="8" placeholder="Enter Content of Announcement"
+                        id="textid">
+                    </textarea>
+                </div>
+                <button type="submit" class="btn btn-success btn-lg px-4 float-right" name="sendAnnouncement">Send</button>
+            </form>
         </div>
-        <button type="submit" class="btn btn-success btn-lg px-4 float-right" name="sendAnnouncement">Send</button>
-    </form>
-</div>
+        </div>
+
+    {% endif %} 
+
+
 </div>
 
-{% endif %}
-</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
