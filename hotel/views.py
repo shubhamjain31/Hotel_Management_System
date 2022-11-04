@@ -132,3 +132,20 @@ def announcements(request):
         return render(request, path + "announcements.html", context)
 
     return render(request, path + "announcements.html", context)
+
+@login_required(login_url='login')
+def deleteAnnouncement(request, pk):
+    role = str(request.user.groups.all()[0])
+    path = role + "/"
+
+    announcement = Announcement.objects.get(id=pk)
+    if request.method == "POST":
+        announcement.delete()
+        return redirect('announcements')
+
+    context = {
+        "role": role,
+        'announcement': announcement
+
+    }
+    return render(request, path + "deleteAnnouncement.html", context)
